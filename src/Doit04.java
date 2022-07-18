@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  *  백준 11660번
  *  구간 합 구하기2
@@ -37,22 +39,65 @@
  *  3 4 3 4
  *  1 1 4 4
  *  ---------------------------------------------------------------------------------------------
- *
+ * [HINT]
  * 2차원 구간 합.
  * D[X][Y] = 원본 배열 (0,0)부터 (X,Y) 까지의 사각형 영역 안에 있는 수의 합
  *
  * 1. 2차원 구간 합 배열의 1행, 1열부터 구합니다.
  * 2. 구간 합 배열 1행, 1열은 다음과 같이 구합니다.
- *    D[i][j] = D[i][j-1] - D[i-1][j-1] + A[i][j]
+ *    D[i][j] = D[i][j-1] - D[i-1][j] - D[i-1][j-1] + A[i][j]
  * 3. 질의에 대한 답을 구간 합으로 구하는 방법
  *    D[X2][Y2] - D[X1-1][Y2] - D[X2][Y1-1] + D[X1-1][Y1-1]
  *
- * [Check]
+ *  N(배열 크기) M(질의 수) 저장
+ *  for(N만큼 반복){
+ *    for(N만큼 반복){
+ *      원본 배열 저장
+ *    }
+ *  }
+ *
+ *  for(N만큼 반복){
+ *    for(N만큼 반복){
+ *      합 배열 저장
+ *       D[i][j] = D[i][j-1] - D[i-1][j] - D[i-1][j-1] + A[i][j]
+ *    }
+ *  }
+ *
+ *  for(M만큼 반복){
+ *     질의 계산 및 출력하기
+ *     결과 = D[X2][Y2] - D[X1-1][Y2] - D[X2][Y1-1] + D[X1-1][Y1-1]
+ *  }
+ *
+ * [CHECK]
  *
  *
  */
 public class Doit04 {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        // 배열 크기
+        int inputLeng = sc.nextInt();
+        int[][] arr = new int[inputLeng][inputLeng];
+        // 횟수
+        int count = sc.nextInt();
 
+        for (int i=0; i<inputLeng; i++){
+            for (int j=0; j<inputLeng; j++){
+                // 원본 배열에 값 세팅.
+                arr[i][j] = sc.nextInt();
+            }
+        }
+
+        int[][] arrSum = new int[inputLeng][inputLeng];
+        for (int i=0; i<inputLeng; i++){
+            for (int j=0; j<inputLeng; j++){
+                // 원본 배열에 값 세팅.
+                arrSum[i][j] = arrSum[i][j-1] - arrSum[i-1][j] - arrSum[i-1][j-1] + arr[i][j];
+            }
+        }
+
+        for (int i=0; i<count; i++){
+            // D[X2][Y2] - D[X1-1][Y2] - D[X2][Y1-1] + D[X1-1][Y1-1]
+        }
     }
 }
