@@ -59,7 +59,7 @@ import java.util.Scanner;
  *  for(N만큼 반복){
  *    for(N만큼 반복){
  *      합 배열 저장
- *       D[i][j] = D[i][j-1] - D[i-1][j] - D[i-1][j-1] + A[i][j]
+ *       D[i][j] = D[i][j-1] + D[i-1][j] - D[i-1][j-1] + A[i][j]
  *    }
  *  }
  *
@@ -77,27 +77,34 @@ public class Doit04 {
         Scanner sc = new Scanner(System.in);
         // 배열 크기
         int inputLeng = sc.nextInt();
-        int[][] arr = new int[inputLeng][inputLeng];
+        int[][] arr = new int[inputLeng+1][inputLeng+1];
         // 횟수
         int count = sc.nextInt();
 
-        for (int i=0; i<inputLeng; i++){
-            for (int j=0; j<inputLeng; j++){
+        for (int i=1; i<=inputLeng; i++){
+            for (int j=1; j<=inputLeng; j++){
                 // 원본 배열에 값 세팅.
                 arr[i][j] = sc.nextInt();
             }
         }
 
-        int[][] arrSum = new int[inputLeng][inputLeng];
-        for (int i=0; i<inputLeng; i++){
-            for (int j=0; j<inputLeng; j++){
+        int[][] arrSum = new int[inputLeng+1][inputLeng+1];
+        for (int i=1; i<=inputLeng; i++){
+            for (int j=1; j<=inputLeng; j++){
                 // 원본 배열에 값 세팅.
-                arrSum[i][j] = arrSum[i][j-1] - arrSum[i-1][j] - arrSum[i-1][j-1] + arr[i][j];
+                arrSum[i][j] = arrSum[i][j-1] + arrSum[i-1][j] - arrSum[i-1][j-1] + arr[i][j];
             }
         }
 
         for (int i=0; i<count; i++){
-            // D[X2][Y2] - D[X1-1][Y2] - D[X2][Y1-1] + D[X1-1][Y1-1]
+            int x1 = sc.nextInt();
+            int y1 = sc.nextInt();
+            int x2 = sc.nextInt();
+            int y2 = sc.nextInt();
+
+            int result = arrSum[x2][y2] - arrSum[x1-1][y2] - arrSum[x2][y1-1] + arrSum[x1-1][y1-1];
+             //D[X2][Y2] - D[X1-1][Y2] - D[X2][Y1-1] + D[X1-1][Y1-1]
+            System.out.println(result);
         }
     }
 }
