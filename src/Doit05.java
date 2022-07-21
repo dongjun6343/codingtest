@@ -33,8 +33,36 @@ import java.util.Scanner;
 public class Doit05 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        sc.nextInt();
+        
+        //1. 수열의 개수
+        int N = sc.nextInt();
+        //2. 나눠서 떨어져야 할 수
+        int M = sc.nextInt();
+        //3. 합 배열 선언
+        int[] S = new int[N+1];
+        //4. 같은 나머지의 인덱스를 카운트하는 배열
+        int[] C = new int[N];
 
+        int remainder = 0;
+        long result = 0;
 
+        S[0] = 0;
+    
+        // 합 배열 세팅
+        for (int i=1; i<=N; i++ ){
+            S[i] = S[i-1] + sc.nextInt();
+        }
+
+        for (int i=0; i<N; i++ ) {
+            remainder = S[i] % M;
+            if (remainder == 0)
+                C[i]++;
+        }
+        // 수정필요.
+        for(int i=0;i<N;i++) {
+            result += (long)C[i]*(C[i]-1)/2;
+        }
+
+        System.out.println(result);
     }
 }
