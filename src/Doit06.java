@@ -45,8 +45,9 @@ public class Doit06 {
         int N = sc.nextInt();
         int start_index = 1;
         int end_index = 1;
-        int count = 0;
+        int count = 1; // 자기자신은 무조건 있으니 +1
         int sum = 1;
+        // end_index가 N이면 stop.
         while (end_index != N ) {
             if (sum > N ){
                 sum = sum - start_index;
@@ -54,11 +55,12 @@ public class Doit06 {
             } else if(sum < N) {
                 end_index++;
                 sum = sum + end_index;
-            } else {
+            } else if(sum == N){
                 end_index++;
                 sum = sum + end_index;
                 count++;
             }
         }
+        System.out.println(count);
     }
 }
