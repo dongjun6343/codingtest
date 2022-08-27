@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  *  백준 17298번
@@ -21,11 +22,38 @@ import java.util.Scanner;
  *  [CHECK]
  *
  */
-public class Doit12 {
+// 오큰수
+// 4 수열의 개수
+// 3 5 2 7
+public class Doit12
+{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        sc.nextInt();
+        int n = sc.nextInt(); // 수열의 개수 입력받기
+        int[] A = new int[n]; // 입력받은 수열의 값으로 배열 생성
+        int[] ans = new int[n]; // 정답 배열 생성
+        for(int i = 0; i<n; i++) {
+            A[i] = sc.nextInt(); // 배열에 값 생성.
+        }
 
+        Stack<Integer> stack = new Stack<Integer>();
+        stack.push(0); // 처음엔 값이 없으므로 push
 
+        for (int i = 0; i < n; i++) {
+            while(!stack.isEmpty() && A[stack.peek()] < A[i]) {
+                ans[stack.pop()] = A[i]; //삭제하고 확인.
+            }
+            stack.push(i); // 신규데이터 삽입.
+        }
+
+        // 스택이 비어있지 않다면 다빌때까지
+        while(!stack.isEmpty())	{
+            ans[stack.pop()] = -1;
+        }
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(ans[i] + " ");
+        }
     }
 }
+
