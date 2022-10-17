@@ -1,3 +1,5 @@
+package Doit_전체문제;
+
 import java.util.Arrays;
 import java.util.Scanner;
 

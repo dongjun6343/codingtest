@@ -1,8 +1,10 @@
+package Doit_전체문제;
+
 import java.util.Scanner;
 
 /**
- *  백준 11003번
- *  최솟값 찾기
+ *  백준 12891번
+ *  DNA 비밀번호
  *
  *
  *  [입력]
@@ -23,7 +25,7 @@ import java.util.Scanner;
  *  [CHECK]
  *
  */
-public class Doit10 {
+public class Doit09 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         sc.nextInt();
