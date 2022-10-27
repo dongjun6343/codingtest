@@ -1,4 +1,4 @@
-package doit_핵심유형;
+package Doit_핵심유형;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

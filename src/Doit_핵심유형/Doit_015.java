@@ -1,11 +1,9 @@
-package doit_핵심유형;
+package Doit_핵심유형;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * 수 정렬하기

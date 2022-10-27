@@ -1,4 +1,4 @@
-package doit_핵심유형;
+package Doit_핵심유형;
 
 
 // 백준 11659번
