@@ -46,9 +46,9 @@ public class Doit_054 {
             A.add(new ArrayList<>());
         }
 
-        int[] indegree = new int[N+1];
+        int[] indegree = new int[N+1];  //진입차수 배열
         int[] selfBuild = new int[N+1]; //자기 자신을 짓는데 걸리는 시간.
-        for(int i = 0; i <= N; i++){
+        for(int i = 1; i <= N; i++){
             StringTokenizer st = new StringTokenizer(br.readLine());
             // 건물을 짓는데 걸리는 시간.
             selfBuild[i] = Integer.parseInt(st.nextToken());
@@ -66,14 +66,32 @@ public class Doit_054 {
         // 위상 정렬
         // 큐 : 선입선출.
         Queue<Integer> queue = new LinkedList<>();
-    
+
         //Queue - 보관할 때 offer 메서드
-        for (int i = 0; i <=N; i++){
+        for (int i = 0; i <= N; i++){
             if(indegree[i] == 0){
                 queue.offer(i);
             }
         }
 
-        //
+        int[] result = new int[N + 1];
+        while(!queue.isEmpty()){
+            //poll()
+            //큐 맨 앞에 있는 값 반환 후 삭제
+            //큐가 비어있을 경우 null 반환
+            int now = queue.poll();
+            for(int next : A.get(now)){
+                // 타깃 노드 진입 차수 배열 --
+                indegree[next]--;
+                //결과 노드 업데이트 = Math.max(현재 지정된 값, 현재 출발 노드 + 비용)
+                result[next] = Math.max(result[next], result[now] + selfBuild[now]);
+                if(indegree[next] == 0){
+                    queue.offer(next);
+                }
+            }
+        }
+        for(int i = 1; i <= N; i++){
+            System.out.println(result[i] + selfBuild[i]);
+        }
     }
 }
