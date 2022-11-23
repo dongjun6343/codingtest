@@ -18,7 +18,7 @@ import java.util.ArrayList;
 class Solution07 {
     public static void main(String[] args) {
         Solution07 s = new Solution07();
-        System.out.println(s.solution("Pyy"));
+        System.out.println(s.solution("pPoooyY"));
     }
     boolean solution(String s) {
         // s값을 짤라서 배열로 값 넣고 p , y가 있으면  +1 시킨 후 p와 y값이 같으면 true한다?
@@ -27,9 +27,9 @@ class Solution07 {
         int chkY = 0;
         for(int i = 0; i < s.length(); i ++){
             a[i] = s.substring(i,i+1);
-            if("p".equals(a[i])){
+            if("p".equals(a[i]) || "P".equals(a[i])){
                 chkP++;
-            } else if("y".equals(a[i])){
+            } else if("y".equals(a[i]) || "Y".equals(a[i])){
                 chkY++;
             }
         }
@@ -40,3 +40,6 @@ class Solution07 {
         return answer;
     }
 }
+
+//        s = s.toUpperCase();
+//         return s.chars().filter( e -> 'P'== e).count() == s.chars().filter( e -> 'Y'== e).count();
