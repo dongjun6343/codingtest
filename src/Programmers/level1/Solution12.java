@@ -1,6 +1,8 @@
 package Programmers.level1;
 
 
+import java.util.ArrayList;
+
 /**
  * 두 정수 a, b가 주어졌을 때 a와 b 사이에 속한 모든 정수의 합을 리턴하는 함수, solution을 완성하세요.
  * 예를 들어 a = 3, b = 5인 경우, 3 + 4 + 5 = 12이므로 12를 리턴합니다.
@@ -18,10 +20,34 @@ package Programmers.level1;
 class Solution12 {
     public static void main(String[] args) {
         Solution12 s = new Solution12();
-        System.out.println(s.solution(3,5));
+        System.out.println(s.solution(5,3));
     }
     public long solution(int a, int b) {
         long answer = 0;
+        //1. for문으로 배열에 해당 값 넣기.
+        ArrayList<Integer> arrList = new ArrayList<Integer>();
+        int temp = 0;
+        if(a > b){
+          temp = a;
+          a = b;
+          b = temp;
+
+        }
+        for(int i = a; i <= b; i++){
+            arrList.add(i);
+        }
+        for(int chk : arrList) {
+            answer += chk;
+        }
         return answer;
     }
 }
+
+//    public long solution(int a, int b) {
+//        return sumAtoB(Math.min(a, b), Math.max(b, a));
+//    }
+//
+//    등차수열.
+//    private long sumAtoB(long a, long b) {
+//        return (b - a + 1) * (a + b) / 2;
+//    }
