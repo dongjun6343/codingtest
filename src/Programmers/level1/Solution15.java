@@ -22,14 +22,32 @@ class Solution15 {
     }
     public String solution(String phone_number) {
         String answer = "";
-
+        // 01033334444 => 0103333
         String chk_phone = phone_number.substring(0,phone_number.length()-4);
+        String chk_phone_back = phone_number.substring(phone_number.length()-4);
+
+        String a[] = new String[chk_phone.length()];
 
         for(int i = 0; i < chk_phone.length(); i++){
-
+            a[i] = "*";
         }
 
-        return answer;
+        for(int i = 0; i < chk_phone.length(); i++){
+            answer += a[i];
+        }
+
+        return answer+chk_phone_back;
     }
 
 }
+
+//     풀이 1
+//     char[] ch = phone_number.toCharArray();
+//     for(int i = 0; i < ch.length - 4; i ++){
+//        ch[i] = '*';
+//     }
+//     return String.valueOf(ch);
+
+
+//     풀이 2
+//     return phone_number.replaceAll(".(?=.{4})", "*");
