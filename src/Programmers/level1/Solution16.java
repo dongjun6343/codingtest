@@ -30,25 +30,40 @@ class Solution16 {
     }
 
     public int[] solution(int[] arr, int divisor) {
-        int[] answer = {};
         int num = 0;
-
-        //1. answer length 구하기.
+        // 1. answer 개수 구하기.
         for(int i = 0; i < arr.length; i++){
-            int chk = arr[i];
-            int j = 0;
-            if(chk%divisor == 0){
-                answer[j] = chk;
-                j++;
+            // divisor 나누어 떨어지는가?
+            if(arr[i]%divisor == 0){
+                num++;
             }
         }
-
+        int[] answer = new int[num];
+        int chkLeng = 0;
+        for(int i = 0; i < arr.length; i++){
+            // divisor 나누어 떨어지는가?
+            if(arr[i]%divisor == 0){
+                answer[chkLeng] = arr[i];
+                chkLeng++;
+            }
+        }
 
         if(num == 0){
             answer = new int[]{-1};
         }
         Arrays.sort(answer);
+
         return answer;
     }
 
+
 }
+
+//    스트림을 사용해보자!
+//    public int[] solution(int[] arr, int divisor) {
+//        int[] answer = Arrays.stream(arr).filter(factor -> factor % divisor == 0).toArray();
+//        if(answer.length == 0) answer = new int[] {-1};
+//        java.util.Arrays.sort(answer);
+//        return answer;
+//    }
+
