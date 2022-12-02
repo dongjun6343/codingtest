@@ -22,11 +22,17 @@ class Solution22 {
 
     public static void main(String[] args) {
         Solution22 s = new Solution22();
-        System.out.println(s.solution(1000));
+        System.out.println(s.solution(new int[]{1,2,3,4}, new int[]{-3,-1,0,2}));
     }
     public int solution(int[] a, int[] b) {
         // a[0]*b[0] + a[1]*b[1]...
-        int answer = 1234567890;
+        int answer = 0;
+        for (int i = 0; i < a.length; i++){
+            answer += a[i] * b[i];
+        }
         return answer;
     }
 }
+
+
+// return IntStream.range(0, a.length).map(index -> a[index] * b[index]).sum();
