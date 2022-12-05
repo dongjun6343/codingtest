@@ -23,18 +23,28 @@ class Solution26 {
 
     public static void main(String[] args) {
         Solution26 s = new Solution26();
-        System.out.println(s.solution("1 2 4 3"));
+        System.out.println(s.solution("-1 -2 -3 -4"));
     }
 
     public String solution(String s) {
+        String answer = "";
+
         // 1. 공백으로 값을 잘라서 배열에 넣는다.
         String[] arr = s.split(" ");
+        int[] valueInt = new int[arr.length];
+        for(int i = 0; i < arr.length; i++){
+            valueInt[i] = Integer.parseInt(arr[i]);
+        }
         // "1","2" -> 1,2
-        Arrays.stream(arr).mapToInt(Integer::parseInt);
-
         // 2. 해당 배열을 오름차순으로 정렬한다.
         // 3. 첫번째 값과 마지막값을 뽑는다.
-        String answer = "";
+
+        Arrays.sort(valueInt);
+        String start = String.valueOf(valueInt[0]);
+        String end = String.valueOf(valueInt[valueInt.length-1]);
+
+        answer = start + " " + end;
+
         return answer;
     }
 }
