@@ -35,7 +35,7 @@ class Solution27 {
 
     public long solution(int price, int money, int count) {
         long answer = 0;
-        int total = 0;
+        long total = 0;
         for(int i = 1; i <= count; i++){
             total = total + (price * i);
         }
@@ -43,7 +43,7 @@ class Solution27 {
         answer = money - total;
 
         if(answer < 0) {
-            Math.abs(answer);
+            answer = Math.abs(answer);
         } else{
             answer = 0;
         }
@@ -51,3 +51,10 @@ class Solution27 {
         return answer;
     }
 }
+
+// 등차수열의 합을 이용.
+// 등차수열 합공식 r(n(n+1))/2
+// r= 차수 n=count
+//    public long solution(long price, long money, long count) {
+//        return Math.max(price * (count * (count + 1) / 2) - money, 0);
+//    }
