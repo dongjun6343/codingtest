@@ -38,8 +38,28 @@ class Solution30 {
         System.out.println(s.solution(3,12));
     }
 
+    private int GCD(int x, int y) {
+        if(y == 0) {
+            return x;
+        } else {
+            return GCD(y, x % y);
+        }
+    }
+
+    private int LCD(int x, int y, int gdc) {
+        int lcd = x * y / gdc;
+        return lcd;
+    }
+
     public int[] solution(int n, int m) {
-        int[] answer = {};
+        int[] answer = new int[2];
+
+        int gcd = GCD(n,m);
+        answer[0] = gcd;
+
+        int lcd = LCD(n,m, gcd);
+        answer[1] = lcd;
+
         return answer;
     }
 }

@@ -1,6 +1,7 @@
 package Programmers.level2;
 
 
+import java.util.StringTokenizer;
 
 /**
  *
@@ -33,12 +34,38 @@ class Solution29 {
 
     public String solution(String s) {
         String answer = "";
-        String[] word = s.split(" ");
-        for(int i = 0; i < word.length; i++){
-            String a = word[i].substring(0, 1).toUpperCase();
-            String b = word[i].substring(1).toLowerCase();
-            answer += a+b + " ";
+        StringTokenizer st = new StringTokenizer(s," ",true);
+        // true : " "값도 토큰으로 가져온다.
+
+        StringBuilder sb = new StringBuilder();
+
+        while (st.hasMoreTokens()) {
+            String word = st.nextToken();
+            if(" ".equals(word)){
+                sb.append(" ");
+                continue;
+            }
+            String a = word.substring(0,1).toUpperCase();
+            String b = word.substring(1).toLowerCase();
+            sb.append(a).append(b);
         }
+        answer = sb.toString();
+
         return answer;
     }
 }
+
+
+/**
+ * StringTokenizer , StringBuilder 사용!
+ *
+ * 1. StringTokenizer vs split
+ * split은 정규식에 사용(가변적인 요소가 많은 문자나 정확한 분리가 필요할때 사용.
+ * StringTokenizer는 속도적인 측면에서 좋음.
+ *
+ *  - StringTokenizer는 결과값이 문자열이라면 split는 결과 값이 문자열 배열이다.
+ *
+ * 2. +로 문자열을 합쳐서 해보니  런타임 에러 발생.
+ * String 객체끼리 더하는 방법은 메모리 할당과 해제를 발생시키는데, 덧셈 연산이 많아진다면 성능적으로 좋지 않다.
+ * (왜 그런지???? 이유는 블로그에 정리를 해보자)
+ */
