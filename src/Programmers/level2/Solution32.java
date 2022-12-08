@@ -1,6 +1,7 @@
 package Programmers.level2;
 
 
+import java.util.Stack;
 
 /**
  * [올바른 괄호]
@@ -30,48 +31,32 @@ class Solution32 {
     public static void main(String[] args) {
         Solution32 s = new Solution32();
 //        System.out.println(s.solution("(())()"));
-//        System.out.println(s.solution("()("));
+        System.out.println(s.solution("()("));
+//        System.out.println(s.solution(")()()"));
     }
-    boolean solution(String s) {
-        boolean answer = true;
 
+    // 스택/큐로 구현해보자.
+    // pop 꺼내기
+    // push 넣기
+    // 1.  '(' 를 만나면 스택에 집어넣고, ')' 를 만나면 스택에서 '(' 하나를 꺼낸다
+    // 2. 만약 스택이 비어있는 상태라면 올바른 괄호가 아니다.
+    // 3. 모든 작업이 끝나고 스택이 비어있다면 짝이 완벽히 맞는 올바른 괄호이고, 스택이 비어있지 않다면 올바르지 않은 괄호다.
+    boolean solution(String s) {
         String[] a = new String[s.length()];
-        int x = 0;
-        int y = 0;
+        Stack<String> stack = new Stack<>();
 
         for(int i = 0 ; i < s.length(); i++){
             a[i] = s.substring(i,i+1);
-            if(")".equals(a[0])){
+            // )시작, 문자열이 홀수면 바로 false
+            if(")".equals(a[0]) || s.length()%2 != 0){
                 return false;
             }
-        }
-        int i = 0;
-        int countA = 0;
-        int countB = 0;
-
-        while (i < s.length()){
             if("(".equals(a[i])){
-                countA++; // 0 1  4
-                i++; // 0 1
+                stack.push(a[i]);
             } else {
-                // 2번 돌기. 2 3
-                for(int j = 0; j < countA; j++){
-                    // 3 4
-                    System.out.println( (a[i]) + " : " + i);
-                    if(")".equals(a[i])){
-                        countB++;
-                    }
-                    i++;
-                }
-                if(countA != countB){
-                    return false;
-                }
-
-                // countA,B 초기화
-                countA = 0;
-                countB = 0;
+                stack.pop();
             }
         }
-        return answer;
+        return stack.empty() ? true : false;
     }
 }
