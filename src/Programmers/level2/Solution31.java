@@ -1,6 +1,9 @@
 package Programmers.level2;
 
 
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * [최솟값 만들기]
  *
@@ -39,10 +42,20 @@ class Solution31 {
 
     public static void main(String[] args) {
         Solution31 s = new Solution31();
-        System.out.println(s.solution(new int[]{1},new int[]{2}));
+        System.out.println(s.solution(new int[]{1,4,2},new int[]{4,5,4}));
     }
     public int solution(int []A, int []B) {
+        //  1 4 2 -> 1 2 4 오름차순
+        //  5 4 4 -> 5 4 4 내림차순
         int answer = 0;
+        Arrays.sort(A);
+
+        Integer[] descB = Arrays.stream(B).boxed().toArray(Integer[] :: new);
+        Arrays.sort(descB, Collections.reverseOrder());
+
+        for(int i = 0; i < A.length; i++){
+            answer += A[i] * descB[i];
+        }
         return answer;
     }
 }
