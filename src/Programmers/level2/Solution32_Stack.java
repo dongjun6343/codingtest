@@ -26,10 +26,10 @@ import java.util.Stack;
  * "(()("	false
  *
  */
-class Solution32 {
+class Solution32_Stack {
 
     public static void main(String[] args) {
-        Solution32 s = new Solution32();
+        Solution32_Stack s = new Solution32_Stack();
 //        System.out.println(s.solution("(())()"));
         System.out.println(s.solution("()("));
 //        System.out.println(s.solution(")()()"));
@@ -38,24 +38,24 @@ class Solution32 {
     // 스택/큐로 구현해보자.
     // pop 꺼내기
     // push 넣기
-    // 1.  '(' 를 만나면 스택에 집어넣고, ')' 를 만나면 스택에서 '(' 하나를 꺼낸다
-    // 2. 만약 스택이 비어있는 상태라면 올바른 괄호가 아니다.
+    // 1.  '(' - 스택에 넣기
+    // 2.  ')' - 스택에서 꺼내기
     // 3. 모든 작업이 끝나고 스택이 비어있다면 짝이 완벽히 맞는 올바른 괄호이고, 스택이 비어있지 않다면 올바르지 않은 괄호다.
     boolean solution(String s) {
-        String[] a = new String[s.length()];
-        Stack<String> stack = new Stack<>();
+        Stack<Character> stack = new Stack<>();
 
         for(int i = 0 ; i < s.length(); i++){
-            a[i] = s.substring(i,i+1);
-            // )시작, 문자열이 홀수면 바로 false
-            if(")".equals(a[0]) || s.length()%2 != 0){
+            // i번째 문자.
+            char c = s.charAt(i);
+
+            if(c == '('){
+                stack.push(c);
+            } else if (stack.empty()){
                 return false;
-            }
-            if("(".equals(a[i])){
-                stack.push(a[i]);
             } else {
                 stack.pop();
             }
+
         }
         return stack.empty() ? true : false;
     }
