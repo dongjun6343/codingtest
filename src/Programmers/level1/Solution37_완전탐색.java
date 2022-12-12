@@ -36,15 +36,41 @@ package Programmers.level1;
  * [[60, 50], [30, 70], [60, 30], [80, 40]]	         4000
  * [[10, 7], [12, 3], [8, 15], [14, 7], [5, 15]]	 120
  * [[14, 4], [19, 6], [6, 16], [18, 7], [7, 11]]	 133
+ *
+ *
+ * 두 개의 모서리를 비교하여 큰 값을 전부 가로, 작은 값을 전부 세로로 두면
+ * 각 모서리의 길이의 최댓값이 답이 된다.
+ * 가로 : 60 70 60 80 , 세로 : 50 30 30 40
  */
 class Solution37_완전탐색 {
 
     public static void main(String[] args) {
         Solution37_완전탐색 s = new Solution37_완전탐색();
-//        System.out.println(s.solution(5));
+//        System.out.println(s.solution(new int[][]{{60, 50}, {30, 70},{60, 30},{80, 40}));
+        System.out.println(s.solution(new int[][]{{60, 50},{30, 70},{60, 30},{80, 40}}));
     }
     public int solution(int[][] sizes) {
         int answer = 0;
+        int a = 0; //가로
+        int b = 0; //세로
+        for (int i = 0; i < sizes.length; i++) {
+            for (int j = 0; j < sizes[i].length; j++) {
+//                System.out.println(i + " : " + j);
+//                System.out.println(sizes[i][j] + " ");
+                if(j == 0){
+                    a = sizes[i][j];
+                } else {
+                    b = sizes[i][j];
+                }
+            }
+            if(a<b){
+                System.out.println(b);
+            } else {
+                System.out.println(a);
+            }
+        }
+
+
         return answer;
     }
 }
