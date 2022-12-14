@@ -1,6 +1,9 @@
 package Programmers.level1;
 
 
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * [최소직사각형]
  *
@@ -53,24 +56,43 @@ class Solution37_완전탐색 {
         int answer = 0;
         int a = 0; //가로
         int b = 0; //세로
+        Integer[] chk1 = new Integer[sizes.length];
+        Integer[] chk2 = new Integer[sizes.length];
+
         for (int i = 0; i < sizes.length; i++) {
             for (int j = 0; j < sizes[i].length; j++) {
-//                System.out.println(i + " : " + j);
 //                System.out.println(sizes[i][j] + " ");
+
                 if(j == 0){
                     a = sizes[i][j];
-                } else {
+                } else if(j == 1){
                     b = sizes[i][j];
                 }
             }
-            if(a<b){
-                System.out.println(b);
+            if(a > b){
+                chk1[i] = a;
+                chk2[i] = b;
             } else {
-                System.out.println(a);
+                chk1[i] = b;
+                chk2[i] = a;
             }
         }
 
+        Arrays.sort(chk1, Collections.reverseOrder());
+        Arrays.sort(chk2, Collections.reverseOrder());
+
+        answer = chk1[0] * chk2[0];
 
         return answer;
     }
 }
+
+/**
+ * class Solution {
+ *     public int solution(int[][] sizes) {
+ *         return Arrays.stream(sizes).reduce((a, b) -> new int[]{
+ *                 Math.max(Math.max(a[0], a[1]), Math.max(b[0], b[1])), Math.max(Math.min(a[0], a[1]), Math.min(b[0], b[1]))
+ *         }).map(it -> it[0] * it[1]).get();
+ *     }
+ * }
+ */
