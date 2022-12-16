@@ -48,7 +48,7 @@ class Solution39_완전탐색 {
         }
 
         // answer 배열에서 중간값, 중간값+1. 구하기
-        // int mid = (chk/2)/2;
+         int mid = (chk/2)/2;
         // answer[mid]
 
         return answer;
