@@ -51,10 +51,48 @@ class Solution38_2018_KAKAO {
         // 3. arr1과 arr2에 #을 합쳐서 출력한다.
         String[] answer = new String[n];
 
+        String[] input1 = new String[n];
+        String[] input2 = new String[n];
+
         for(int i = 0 ; i < n; i++){
             String a = Integer.toBinaryString(arr1[i]);
-            System.out.println(a);
+            String b = Integer.toBinaryString(arr2[i]);
+
+            // length만큼 0을 채운다.
+            if(a.length() != n){
+
+//                for(){
+//
+//                }
+
+                input1[i] = "0"+a;
+            } else {
+                input1[i] = a;
+            }
+
+            if(b.length() != n){
+                input2[i] = "0"+b;
+            }else {
+                input2[i] = b;
+            }
         }
+
+        System.out.println(input1[0].substring(0,1));
+        System.out.println(input2[0].substring(0,1));
+        System.out.println(input1[0].substring(1,2));
+        System.out.println(input2[0].substring(1,2));
+
+        for(int k = 0; k < n; k++){
+
+            if("0".equals(input1[k].substring(k,k+1)) && "0".equals(input2[k].substring(k,k+1))){
+                // input1 , input2의 각각 자리수마다 잘라서
+                // 둘다 0 이면 " " 그게 아니면 #으로 추가.
+                answer[k] = " ";
+            } else {
+                answer[k] = "#";
+            }
+        }
+
         return answer;
     }
 }
