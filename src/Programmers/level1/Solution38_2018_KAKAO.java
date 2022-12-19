@@ -1,7 +1,6 @@
 package Programmers.level1;
 
 
-
 /**
  * 비밀지도
  * 네오는 평소 프로도가 비상금을 숨겨놓는 장소를 알려줄 비밀지도를 손에 넣었다.
@@ -50,49 +49,99 @@ class Solution38_2018_KAKAO {
         // 2. 1 => "#" , 0 => " " 변환.
         // 3. arr1과 arr2에 #을 합쳐서 출력한다.
         String[] answer = new String[n];
-
         String[] input1 = new String[n];
         String[] input2 = new String[n];
+
+        StringBuffer sb = null;
 
         for(int i = 0 ; i < n; i++){
             String a = Integer.toBinaryString(arr1[i]);
             String b = Integer.toBinaryString(arr2[i]);
-
             // length만큼 0을 채운다.
             if(a.length() != n){
-
-//                for(){
-//
-//                }
-
-                input1[i] = "0"+a;
+                sb = new StringBuffer();
+//                1 , 00001 : 총 4번을 돌면서 0을 붙인다.
+                for(int k = 1; k <= n - a.length(); k++){
+                    input1[i] = String.valueOf(sb.append("0"));
+                }
+                input1[i] = String.valueOf(sb.append(a));
             } else {
                 input1[i] = a;
             }
 
             if(b.length() != n){
-                input2[i] = "0"+b;
+                sb = new StringBuffer();
+                for(int k = 1; k <= n - b.length(); k++){
+                    input2[i] = String.valueOf(sb.append("0"));
+                }
+                input2[i] = String.valueOf(sb.append(b));
             }else {
                 input2[i] = b;
             }
         }
-
-        System.out.println(input1[0].substring(0,1));
-        System.out.println(input2[0].substring(0,1));
-        System.out.println(input1[0].substring(1,2));
-        System.out.println(input2[0].substring(1,2));
-
-        for(int k = 0; k < n; k++){
-
-            if("0".equals(input1[k].substring(k,k+1)) && "0".equals(input2[k].substring(k,k+1))){
-                // input1 , input2의 각각 자리수마다 잘라서
-                // 둘다 0 이면 " " 그게 아니면 #으로 추가.
-                answer[k] = " ";
-            } else {
-                answer[k] = "#";
+        for(int i = 0; i < n; i++){
+            sb = new StringBuffer();
+            for (int k = 0; k < n; k++){
+                if("0".equals(input1[i].substring(k,k+1)) && "0".equals(input2[i].substring(k,k+1))){
+                    // input1 , input2의 각각 자리수마다 잘라서
+                    // 둘다 0 이면 " " 그게 아니면 #으로 추가.
+                    answer[i] = String.valueOf(sb.append(" "));
+                } else {
+                    answer[i] = String.valueOf(sb.append("#"));
+                }
             }
+//            System.out.println(sb);
         }
-
         return answer;
     }
 }
+
+
+/**
+ * ------------------- 재귀 --------------------------------
+ * class Solution {
+ *     public String makeSharp(int n, int m) {
+ *         if(n == 0) {
+ *             if( m > 0) {
+ *                 String str = "";
+ *                 for(int i = 0; i < m; i++) {
+ *                     str += " ";
+ *                 }
+ *                 return str;
+ *             }
+ *             else return "";
+ *         }
+ *         else {
+ *             return n % 2 == 0 ? makeSharp(n/2, m-1) + " " : makeSharp(n/2, m-1) + "#";
+ *         }
+ *     }
+ *     public String[] solution(int n, int [] arr1, int [] arr2) {
+ *         String [] answer = new String[n];
+ *         int [] secretMap = new int[n];
+ *         for(int i = 0; i < n; i++) {
+ *             secretMap[i] = arr1[i] | arr2[i];
+ *             answer[i] = makeSharp(secretMap[i], n);
+ *         }
+ *         return answer;
+ *     }
+ * }
+ *
+ * ------------------------------------------------------------------
+ *
+ * class Solution {
+ *   public String[] solution(int n, int[] arr1, int[] arr2) {
+ *         String[] result = new String[n];
+ *         for (int i = 0; i < n; i++) {
+ *             result[i] = Integer.toBinaryString(arr1[i] | arr2[i]);
+ *         }
+ *
+ *         for (int i = 0; i < n; i++) {
+ *             result[i] = String.format("%" + n + "s", result[i]);
+ *             result[i] = result[i].replaceAll("1", "#");
+ *             result[i] = result[i].replaceAll("0", " ");
+ *         }
+ *
+ *         return result;
+ *     }
+ * }
+ */
