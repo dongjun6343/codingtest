@@ -33,7 +33,8 @@ class Solution43 {
 
     public static void main(String[] args) {
         Solution43 s = new Solution43();
-        System.out.println(s.solution(new String[]{"I -45", "I 653", "D 1", "I -642", "I 45", "I 97", "D 1", "D -1", "I 333"}));
+//        System.out.println(s.solution(new String[]{"I -45", "I 653", "D 1", "I -642", "I 45", "I 97", "D 1", "D -1", "I 333"}));
+        System.out.println(s.solution(new String[]{"I 16", "I -5643", "D -1", "D 1", "D 1", "I 123", "D -1"}));
     }
 
     // I 숫자 큐에 주어진 숫자를 삽입합니다.
@@ -41,9 +42,9 @@ class Solution43 {
     // D -1	큐에서 최솟값을 삭제합니다.
     // 빈 큐에 데이터를 삭제하라는 연산이 주어질 경우, 해당 연산은 무시합니다.
     public int[] solution(String[] operations) {
-        int[] answer = new int[2];
+        int[] answer = {0,0};
 
-        PriorityQueue<Integer> pqMIN = new PriorityQueue<>();
+        PriorityQueue<Integer> pqMIN = new PriorityQueue<>(); //맨 앞에 가장 작은 수
         PriorityQueue<Integer> pqMAX = new PriorityQueue<>(Collections.reverseOrder()); // 내림차순으로 맨 앞에 가장 큰 수가 있다.
 
         for(int i = 0 ; i < operations.length; i++){
@@ -61,20 +62,22 @@ class Solution43 {
                 if(pqMIN.isEmpty()){
                     continue;
                 } else{
-                    if(num == 1){
-                        // 큐에서 최댓값 삭제.
-                        pqMIN.remove(pqMAX.peek());
-                        pqMAX.poll();
-                    }else if (num == -1){
-                        // 큐에서 최솟값 삭제 추가
+                    if(num == 1){ // 큐에서 최댓값 삭제.
+                        int max = pqMAX.peek();
+                        pqMAX.remove(max);
+                        pqMIN.remove(max);
+                    }else if (num == -1){ // 큐에서 최솟값 삭제
+                        int min = pqMIN.peek();
+                        pqMAX.remove(min);
+                        pqMIN.remove(min);
                     }
                 }
             }
         }
-        if(pqMIN.isEmpty()){
-            return new int[]{0,0};
+        if(!pqMIN.isEmpty()){
+            answer[0] = pqMAX.peek();
+            answer[1] = pqMIN.peek();
         }
-
         return answer;
     }
 }
