@@ -1,6 +1,7 @@
 package Programmers.level2;
 
 
+import java.util.LinkedList;
 
 /**
  * [캐시]
@@ -46,6 +47,28 @@ class Solution45_2018_KAKAO_02 {
     }
     public int solution(int cacheSize, String[] cities) {
         int answer = 0;
+
+        if(cacheSize == 0){
+            return cities.length * 5;
+        }
+
+        LinkedList<String> cache = new LinkedList<>();
+        for(int i = 0; i< cities.length; i++){
+            String s = cities[i].toUpperCase();
+            if(cache.remove(s)){ // 해당 값이 있냐 없냐 판단. 있으면 true
+                // cache hit일 경우 실행시간은 1이다.
+                answer += 1;
+                cache.add(s);
+            } else {
+                // cache miss일 경우 실행시간은 5이다.
+                answer += 5;
+                // 캐시가 꽉 찼을 경우엔 맨 처음 삭제
+                if(cache.size() >= cacheSize){
+                    cache.remove(0);
+                }
+                cache.add(s);
+            }
+        }
         return answer;
     }
 }
