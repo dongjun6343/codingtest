@@ -38,6 +38,18 @@ class Solution46 {
         // [0][0]*[0][0] + [0][1]*[1][0]
         // [0][0]*[1][0] + [0][1]*[1][1]
 
+        // for문쪽 정리 해보기.
+        for(int i = 0; i < row; i++){
+            for(int j  = 0; j < col; j++){
+                int value =  0;
+                for ( int k = 0 ; k < arr1[i].length; k++ ) {
+                    //arr1[i][0,1,...]
+                    //arr2[0,1,2][0]
+                    value += arr1[i][k] * arr2[k][j];
+                }
+                answer[i][j] = value;
+            }
+        }
         return answer;
     }
 }
