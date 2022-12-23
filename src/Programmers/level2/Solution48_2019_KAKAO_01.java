@@ -1,7 +1,7 @@
 package Programmers.level2;
 
 
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * [튜플]
@@ -60,7 +60,7 @@ class Solution48_2019_KAKAO_01 {
 
     public static void main(String[] args) {
         Solution48_2019_KAKAO_01 s = new Solution48_2019_KAKAO_01();
-        System.out.println(s.solution("{{2},{2,1},{2,1,3},{2,1,3,4}}"));
+        System.out.println(s.solution("{{4,2,3},{3},{2,3,4,1},{2,3}}"));
     }
     // "{{4,2,3},{3},{2,3,4,1},{2,3}}"	[3, 2, 4, 1]
     // 3
@@ -74,9 +74,8 @@ class Solution48_2019_KAKAO_01 {
     //    - 중복해서 저장하지 않는" 집합으로 사용.
     //3. 숫자 빈도가 높은 순서로 answer에 저장
 
-    public int[] solution(String s) {
-        int[] answer = {};
-
+    public ArrayList<Integer> solution(String s) {
+        ArrayList<Integer> answer = new ArrayList<>();
         // 가장 앞의 {{ 제거
         s = s.substring(2);
         // 가장 뒤의 }} 를 제거
@@ -85,10 +84,25 @@ class Solution48_2019_KAKAO_01 {
         s = s.replace("},{", "-"); // 2-2,1-2,1,3-2,1,3,4
         String str[] = s.split("-"); // 2, 2,1 ...
         // 정규식으로 해당값을 나누는 방법이 있을거같다 - 정규식 찾아보기.
+        // pattern() : 컴파일된 정규표현식을 String 형태로 반환합
 
         // 길이순서대로 정렬.
         // 중복된 값 순서가 큰 순서대로 answser에 넣기.
 
+        // Arrays.sort(str, (o1, o2) -> Integer.compare(o1.length(), o2.length()));
+        Arrays.sort(str, Comparator.comparingInt(String::length));
+        for(String x : str){
+            // ,를 기준으로 split하여 새로운 문자열 배열을 만든다.
+            String[] temp = x.split(",");
+            for(int i = 0 ; i < temp.length;i++){
+                // 각 문자열 값을 정수로 바꾼다.
+                int n = Integer.parseInt(temp[i]);
+                // 튜플에 들어있는 값이 아니라면 추가
+                if(!answer.contains(n)){
+                    answer.add(n);
+                }
+            }
+        }
         return answer;
     }
 }
