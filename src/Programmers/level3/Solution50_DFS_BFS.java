@@ -31,11 +31,40 @@ class Solution50_DFS_BFS {
     // 깊이/너비 우선 탐색(DFS/BFS)
     public static void main(String[] args) {
         Solution50_DFS_BFS s = new Solution50_DFS_BFS();
-//        System.out.println(s.solution(new int[]{1, 1, 9, 1, 1, 1}, 0));
+        System.out.println(s.solution(3, new int[][]{{1, 1, 0}, {1, 1, 0}, {0, 0, 1}}));
     }
 
+    // DFS를 통해서 문제풀이
+    // DFS에 대해서 찾아보기.
     public int solution(int n, int[][] computers) {
         int answer = 0;
+
+        // 방문처리.
+        boolean[] visited = new boolean[n];
+
+        for(int i = 0; i < n; i++){
+            if(!visited[i]){
+                dfs(computers, visited, i);
+                answer++;
+            }
+        }
         return answer;
     }
+
+    /**
+     * 1. 자기자신이 아니고
+     * 2. 해당 위치의 방문값이 F이고
+     * 3. 값이 1 인것!
+     */
+    private boolean[] dfs(int[][] computers, boolean[] visited, int start) {
+        visited[start] = true;
+        for(int i = 0; i < computers.length; i++){
+            // start 0 , 1 , 2..
+            if(computers[start][i] == 1 && visited[i] == false){
+                dfs(computers, visited, i);
+            }
+        }
+        return visited;
+    }
 }
+
