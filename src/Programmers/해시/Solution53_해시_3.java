@@ -1,4 +1,4 @@
-package Programmers.level2;
+package Programmers.해시;
 
 
 import java.util.HashMap;
