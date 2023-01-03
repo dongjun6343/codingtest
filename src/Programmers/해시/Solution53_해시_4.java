@@ -69,10 +69,28 @@ class Solution53_해시_4 {
         int answer = 1;
 
         while(it.hasNext()){
-            answer *= it.next().intValue() + 1; //경우의 수 구하기
+            //경우의 수 구하기
+            // 각 의상 종류별 갯수 + 1 을 전체 곱하고 -1
+            answer *= it.next().intValue() + 1;
+            // 여기서 1을 안더한다고 한다면
+            // hm.put(key, hm.getOrDefault(key, 1) + 1); 로 변경하면 된다.
         }
         // 3. 아무종류의 옷도 입지 않는 경우 제외하기
         return answer - 1;
     }
 }
 
+/**
+ * 종류         의상
+ * headgear     yellowhat     ---->  headgear :  3
+ *              green_turban
+ *              none ( answer *= it.next().intValue() + 1; 에서 +1을 해주는 이유)
+ *
+ * eyewear      bluesungl     ----> eyewear : 2
+ *              none
+ *---------------------------------------------------------------------------------------------
+ *              3 * 2 = 6 - 1
+ *
+ *  전체조합을 계산하고 아무것도 입지 않은 경우를 뺀다.
+ *
+ */
