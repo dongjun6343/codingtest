@@ -1,8 +1,7 @@
 package Programmers.해시;
 
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * [메뉴 리뉴얼]
@@ -69,21 +68,73 @@ import java.util.HashMap;
 class Solution_해시_kakao {
     public static void main(String[] args) {
         Solution_해시_kakao s = new Solution_해시_kakao();
-        System.out.println(s.solution(new String[]{"ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"},  new int[]{2,3,4}));
+        System.out.println(s.solution(new String[]{"XYZ", "XWY", "WXA"},  new int[]{2,3,4}));
     }
-    public String[] solution(String[] orders, int[] course) {
-        String[] answer = {};
-        HashMap<String, Integer> hm = new HashMap<>();
 
-        // order 정렬.
-        for (String s : orders){
-            char[] arr = s.toCharArray();
-            String s1 = String.valueOf(arr);
-            System.out.println(s1);
+    List<String> answerList = new ArrayList<>();
+    HashMap<String, Integer> hm = new HashMap<>();
+
+    public String[] solution(String[] orders, int[] course) {
+        // 1. 정렬
+
+        for(int i = 0; i < orders.length; i++){
+            // 스트링 자체에서 정렬을 할 수 없으므로 char로 변환 후 정렬한다.
+            char[] arr = orders[i].toCharArray();
+            Arrays.sort(arr);
+            orders[i] = String.valueOf(arr);
+            //System.out.println(orders[i]);
         }
 
+        // 2. 각 order를 기준으로 courseLength만큼의 조합 만들기
+        for (int courseLength : course){
+            // 각 order별로 조합. ex) XY XZ ..
+            // 재귀함수로 구현.
+            for(String order : orders){
+                combination("", order, courseLength);
+            }
+            // 3. 가장 많은 조합을 answer에 저장한다.
+            if(!hm.isEmpty()){
+                List<Integer> countList = new ArrayList<>(hm.values());
+                int max = Collections.max(countList);
 
+                if(max > 1) {
+                    for(String key : hm.keySet()){
+                        // 해당 키의 값이 MAX일때
+                        if(hm.get(key) == max){
+                            answerList.add(key);
+                        }
+                    }
+                    hm.clear();
+                }
+            }
+        }
+        Collections.sort(answerList);
+        String[] answer = new String[answerList.size()];
+
+        for(int i = 0; i < answer.length; i++){
+            answer[i] = answerList.get(i);
+            //System.out.println(answer[i]);
+        }
         return answer;
+    }
+
+    private void combination(String order, String others, int count) {
+        // 재귀함수
+        // 1. 탈출조건 (count == 0)
+        if (count == 0){
+            hm.put(order , hm.getOrDefault(order , 0) + 1);
+            return;
+        }
+        // 2. 수행동작
+        for(int i = 0; i < others.length(); i++){
+            combination(order + others.charAt(i), others.substring(i+1), count-1);
+        }
     }
 }
 
+/**
+ * 이 문제를 풀면서 생각해야 하는 부분!
+ *  1. 조합을 만들땐 정렬을 일단 고려해보자
+ *  2. Hash Map의 기본 형태는 일단 NAME : COUNT
+ *  3. 재귀 = 탈출조건 + 수행동작
+ */
