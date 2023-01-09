@@ -54,35 +54,38 @@ class Solution_큐_스택_02 {
     // 2. queue에 0을 추가해서 하는것보다 다른 방식을 생각해볼것.
     // 3. 현재 짜놓은 소스는 예외케이스가 많아서 전체적으로 수정이 필요하다.
     public int solution(int bridge_length, int weight, int[] truck_weights) {
+        Queue<Integer> queue = new LinkedList<>();
+        int sum = 0;
         int answer = 0;
 
-        Queue<Integer> queue = new LinkedList<>();
-        int length = 0;
-        for(int i = 0; i < bridge_length; i ++){
-            queue.offer(length);
-        }
-        int a = 0;
-        int chk = 0;
-        while(!queue.isEmpty()){
-            if(a == truck_weights.length){
-                queue.poll();
-                answer++;
-            } else {
-                int t = truck_weights[a];
-                queue.poll();
-                //queue.offer(t);
-                chk = t + queue.peek();
-                // 큐에 들어있는 값 더하기.
-                if(chk > weight){
-                    queue.offer(0);
-                } else {
-                    queue.offer(t);
-                    a++;
+        for(int truck : truck_weights) {
+            while(true) {
+                // 큐에 아무것도 없는 경우
+                if(queue.isEmpty()) {
+                    queue.offer(truck);
+                    sum += truck;
+                    answer++; 
+                    break;
+                } else if(queue.size() == bridge_length) { // 큐에 다리 길이만큼 트럭이 다 찬 경우
+                    sum -= queue.poll();
+                } else  {
+                    // weight 값을 넘지 않는 선에서 새로운 트럭을 다리에 올려줌
+                    if(sum + truck <= weight) {
+                        queue.offer(truck);
+                        sum += truck;
+                        answer++;
+                        break;
+                    } else {
+                        // 넘는다면 0을 큐에 추가
+                        queue.offer(0);
+                        answer++;
+                    }
                 }
-                answer++;
+                System.out.println(queue);
             }
-            System.out.println(queue);
         }
-        return answer;
+        System.out.println(answer);
+        // 마지막 트럭에서 반복문이 끝남 ->  다리 길이 더해주기.
+        return answer + bridge_length;
     }
 }
