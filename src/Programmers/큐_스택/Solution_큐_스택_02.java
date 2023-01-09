@@ -1,6 +1,9 @@
 package Programmers.큐_스택;
 
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * [다리를 지나는 트럭]
  * 문제 설명
@@ -39,19 +42,47 @@ package Programmers.큐_스택;
  * 100	                100	[10,10,10,10,10,10,10,10,10,10]	 110
  */
 
+//5, 5, [2,2,2,2,1,1,1,1,1], 19
 class Solution_큐_스택_02 {
     public static void main(String[] args) {
         Solution_큐_스택_02 s = new Solution_큐_스택_02();
         System.out.println(s.solution(2, 10 , new int[]{7,4,5,6}));
     }
 
+    // 문제점
+    // 1. 예제로 나온 매개변수는 통과가 되는데 테스트 케이스에서 통과가 안되는 케이스 발견.
+    // 2. queue에 0을 추가해서 하는것보다 다른 방식을 생각해볼것.
+    // 3. 현재 짜놓은 소스는 예외케이스가 많아서 전체적으로 수정이 필요하다.
     public int solution(int bridge_length, int weight, int[] truck_weights) {
         int answer = 0;
+
+        Queue<Integer> queue = new LinkedList<>();
+        int length = 0;
+        for(int i = 0; i < bridge_length; i ++){
+            queue.offer(length);
+        }
+        int a = 0;
+        int chk = 0;
+        while(!queue.isEmpty()){
+            if(a == truck_weights.length){
+                queue.poll();
+                answer++;
+            } else {
+                int t = truck_weights[a];
+                queue.poll();
+                //queue.offer(t);
+                chk = t + queue.peek();
+                // 큐에 들어있는 값 더하기.
+                if(chk > weight){
+                    queue.offer(0);
+                } else {
+                    queue.offer(t);
+                    a++;
+                }
+                answer++;
+            }
+            System.out.println(queue);
+        }
         return answer;
     }
-
-
-
-
-
 }
