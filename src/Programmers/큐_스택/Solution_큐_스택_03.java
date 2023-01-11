@@ -46,49 +46,20 @@ class Solution_큐_스택_03 {
 
     // 통과하지 못하는 테스트가 존재함. (수정필요)
     public int[] solution(int[] prices) {
-        Queue<Integer> queue = new LinkedList<>();
-        List<Integer> list = new ArrayList<>();
-        List<Integer> answerList = new ArrayList<>();
-        boolean flag;
-        int sum = 0;
-        for (int price : prices){
-            queue.offer(price);
+        int[] answer = new int[prices.length];
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < prices.length; i++ ){
+            while (!stack.empty() && prices[i] < prices[stack.peek()]){
+                answer[stack.peek()] = i - stack.peek();
+                stack.pop(); // 답을 구했으므로 스택에서 제거.
+            }
+            stack.push(i); // 1 2 3 2 3
         }
 
-        while (!queue.isEmpty()){
-            flag = false;
-            Integer chk = queue.poll();// 1
-            Iterator<Integer> iter = queue.iterator();
-            while (iter.hasNext()){
-                list.add(iter.next());
-
-            } // 2 3 2 3
-            for(int a: list){
-                // 1     2
-                if(chk > a){
-                    sum--;
-                    flag = true;
-                } else {
-                    sum++;
-                }
-            }
-
-            if(flag){
-                sum += 1;
-                if(sum < 0){
-                    answerList.add(0);
-                }else {
-                    answerList.add(sum);
-                }
-            } else {
-                answerList.add(sum);
-            }
-            sum = 0; // sum 초기화.
-            list.clear(); // list 지우기.
-        }
-        int[] answer = new int[answerList.size()];
-        for(int i = 0; i < answerList.size(); i++){
-            answer[i] = answerList.get(i);
+        while (!stack.isEmpty()){ // 끝까지 값이 안떨어진 주식일 경우
+            answer[stack.peek()] = prices.length - stack.peek() - 1;
+            stack.pop();
         }
 
         return answer;
