@@ -37,39 +37,49 @@ import java.util.ArrayList;
 class Solution_완전탐색_01 {
     public static void main(String[] args) {
         Solution_완전탐색_01 s = new Solution_완전탐색_01();
-        System.out.println(s.solution(new int[]{1, 2, 3, 4, 5 , 1, 2, 3, 4, 5 , 1, 2, 3, 4, 5, 6}));
+        System.out.println(s.solution(new int[]{3, 3, 1, 1, 1, 1, 2, 3, 4, 5}));
     }
 
     public int[] solution(int[] answers) {
 
         // 수포자 1 : 1,2,3,4,5,1,2,3,4,5
-        // 수포자 2 : 2,1,2,3,2,4,2,5,2,1
-        // 수포자 3 : 3,3,2,2,1,1,4,4,5,5
+        // 수포자 2 : 2,1,2,3,2,4,2,5
+        // 수포자 3 : 3,3,1,1,2,2,4,4,5,5
         // 초기값 세팅
-        int[] a = new int[]{1,2,3,4,5,1,2,3,4,5};
-        int[] b = new int[]{2,1,2,3,2,4,2,5,2,1};
-        int[] c = new int[]{3,3,2,2,1,1,4,4,5,5};
+        int[] a = new int[]{1,2,3,4,5};
+        int[] b = new int[]{2,1,2,3,2,4,2,5};
+        int[] c = new int[]{3,3,1,1,2,2,4,4,5,5};
 
         int countA = 0;
         int countB = 0;
         int countC = 0;
 
         int j = 0;
+        int k = 0;
+        int z = 0;
         for(int i = 0; i < answers.length; i++){
             // 0~9 -> 9가 되면 다시 0
             if(j == 10){
                 j = 0;
             }
-            if(answers[i] == a[j]){
+            if(k == 8){
+                k = 0;
+            }
+            if(z == 5){
+                z = 0;
+            }
+            if(answers[i] == a[z]){
                 countA++;
             }
-            if(answers[i] == b[j]){
+            if(answers[i] == b[k]){
                 countB++;
             }
             if(answers[i] == c[j]){
                 countC++;
             }
             j++;
+            k++;
+            z++;
         }
         ArrayList<Integer> list = new ArrayList<>();
         // count 비교
@@ -112,3 +122,35 @@ class Solution_완전탐색_01 {
         return answer;
     }
 }
+
+
+/**
+ *
+ * public static int[] solution(int[] answers) {
+ *         int[][] patterns = {
+ *                 {1, 2, 3, 4, 5},
+ *                 {2, 1, 2, 3, 2, 4, 2, 5},
+ *                 {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
+ *         };
+ *
+ *         int[] hit = new int[3];
+ *         for(int i = 0; i < hit.length; i++) {
+ *             for(int j = 0; j < answers.length; j++) {
+ *                 if(patterns[i][j % patterns[i].length] == answers[j]) hit[i]++;
+ *             }
+ *         }
+ *
+ *         int max = Math.max(hit[0], Math.max(hit[1], hit[2]));
+ *         List<Integer> list = new ArrayList<>();
+ *         for(int i = 0; i < hit.length; i++)
+ *             if(max == hit[i]) list.add(i + 1);
+ *
+ *         int[] answer = new int[list.size()];
+ *         int cnt = 0;
+ *         for(int num : list)
+ *             answer[cnt++] = num;
+ *         return answer;
+ *     }
+ *
+ *
+ */
