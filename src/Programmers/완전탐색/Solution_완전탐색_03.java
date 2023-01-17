@@ -52,18 +52,22 @@ package Programmers.완전탐색;
 
 class Solution_완전탐색_03 {
 
-    public boolean[] visited;
+    boolean[] visited;
+    int answer = 0;
 
     public static void main(String[] args) {
         Solution_완전탐색_03 s = new Solution_완전탐색_03();
         System.out.println(s.solution(80, new int[][]{{80,20},{50,40},{30,10}}));
+
+        // new int[][]{{80,20},{50,40},{30,10}}));
+        //              0   1 , 0   1 ,  0  1 --> 0 , 1
+        //                1   ,   2   ,   3
     }
 
 //  dungeons의 세로(행) 길이(즉, 던전의 개수)는 1 이상 8 이하입니다.
 //  dungeons의 가로(열) 길이는 2 입니다.
 //  dungeons의 각 행은 각 던전의 ["최소 필요 피로도", "소모 피로도"] 입니다.
     public int solution(int k, int[][] dungeons) {
-        int answer = 0;
         // 방문기록
         visited = new boolean[dungeons.length];
 
@@ -74,16 +78,17 @@ class Solution_완전탐색_03 {
         return answer;
     }
     private void chkDFS(int depth, int k, int[][] dungeons) {
-
         for (int i = 0 ; i < dungeons.length; i++){
             // 한번도 방문을 안하고,
             // 던전의 최소 피로도가 k보다 작거나 같을때
             if(!visited[i] && dungeons[i][0] <= k ){
                 visited[i] = true; //해당 노드 방문
-                // chkDFS();
+                 chkDFS(depth+1, k - dungeons[i][1], dungeons); //해당 피로도 감소.
                 visited[i] = false;
             }
         }
 
+        // 가장 높은 수
+        answer = Math.max(answer, depth);
     }
 }
