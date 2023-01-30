@@ -1,6 +1,7 @@
 package Programmers.완전탐색;
 
 
+import java.util.*;
 
 /**
  * [전력망을 둘로 나누기]
@@ -48,8 +49,34 @@ class Solution_완전탐색_04 {
         //    7,8 7,9  -  B : 5개
         // 5. 없으면 A-B를 하고 절대값
         //    답 : 3
-        
+
+        String key = "";
+        HashMap<String, Integer> hm = new HashMap<>();
+
+        for(int i = 0; i < n-1; i++){
+            for(int j = 0; j < 2; j++){
+                key = String.valueOf(wires[i][j]);
+                hm.put(key,  hm.getOrDefault(key, 0) + 1);
+            }
+        }
+        System.out.println("출력 결과 : " + hm);
+
+        List<String> listKeySet = new ArrayList<>(hm.keySet());
+        // 오름차순
+        Collections.sort(listKeySet, (value1, value2) -> (hm.get(value2).compareTo(hm.get(value1))));
+        int out = 1;
+        for(String sortKey : listKeySet) {
+            if(out > 2){
+                break;
+            }
+            out = out + 1;
+            System.out.println(sortKey + " < key");
+        }
+
+
+
         int answer = -1;
+
         return answer;
     }
 }
