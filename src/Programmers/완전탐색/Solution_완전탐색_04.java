@@ -27,56 +27,67 @@ import java.util.*;
  * 9	[[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]	3
  * 4	[[1,2],[2,3],[3,4]]	                                0
  * 7	[[1,2],[2,7],[3,7],[3,4],[4,5],[6,7]]	            1
+ *
+ *
+ * [문제 풀이 힌트]
+ * 인접리스트를 리스트의 배열로 만들고 무향 그래프로이므로 양쪽으로 추가
+ * 모든 간선에 대하여 끊었을때 각 전력망의 송전탑 개수를 bfs 탐색을 사용하여 구한다.
+ * bfs에서 연결이 끊긴것을 v1에서 v2로 가는 경우를 제외
  */
 
 class Solution_완전탐색_04 {
-
     public static void main(String[] args) {
         Solution_완전탐색_04 s = new Solution_완전탐색_04();
         System.out.println(s.solution(9, new int[][]{{1,3},{2,3},{3,4},{4,5},{4,6},{4,7},{7,8},{7,9}}));
-
     }
+
+    // 그래프 탐색
+    // 인접리스트, 인접행렬을 bfs 혹은 dfs 탐색으로 해결하는 문제
+    public List<Integer>[] list;
+
     public int solution(int n, int[][] wires) {
-        // 1. wires에 있는 숫자 cnt하기. 
-        //    1-1 2-1 3-3 4-4 5-1 6-1 7-1 8-1 9-1
-        // 2. cnt한 값중 가장 큰값 2개 선택.
-        //    3,4
-        // 3. [3,4] 배열을 빼고 3과 4가 들어가는 배열 찾기.
-        //    1,3 2,3  - A : 2개
-        //    4,5 4,6 4,7 - B : 3개
-        // 4. 3,4을 뺀 나머지 숫자가 있는 배열 찾기.
-        //    (재귀함수 사용해야 할듯 1. 수행동작, 2.탈출조건)
-        //    7,8 7,9  -  B : 5개
-        // 5. 없으면 A-B를 하고 절대값
-        //    답 : 3
+        int answer = 100;
 
-        String key = "";
-        HashMap<String, Integer> hm = new HashMap<>();
-
-        for(int i = 0; i < n-1; i++){
-            for(int j = 0; j < 2; j++){
-                key = String.valueOf(wires[i][j]);
-                hm.put(key,  hm.getOrDefault(key, 0) + 1);
-            }
-        }
-        System.out.println("출력 결과 : " + hm);
-
-        List<String> listKeySet = new ArrayList<>(hm.keySet());
-        // 오름차순
-        Collections.sort(listKeySet, (value1, value2) -> (hm.get(value2).compareTo(hm.get(value1))));
-        int out = 1;
-        for(String sortKey : listKeySet) {
-            if(out > 2){
-                break;
-            }
-            out = out + 1;
-            System.out.println(sortKey + " < key");
+        list = new List[n + 1];
+        for (int i = 0; i <= n; i++) {
+            list[i] = new ArrayList<>();
         }
 
+        for (int[] wire : wires) {
+            list[wire[0]].add(wire[1]);
+            list[wire[1]].add(wire[0]);
+        }
 
+        for (int[] wire : wires) {
+            int n1 = bfs(wire[0], wire[1], n);
+            int n2 = bfs(wire[1], wire[0], n);
 
-        int answer = -1;
+            answer = Math.min(answer, Math.abs(n1 - n2));
+        }
 
         return answer;
+    }
+
+    public int bfs(int v1, int v2, int n) {
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visit = new boolean[n + 1];
+
+        int cnt = 0;
+
+        queue.add(v1);
+        visit[v1] = true;
+
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            cnt++;
+
+            for (int next : list[cur]) {
+                if (next != v2 && !visit[next]) {
+                    queue.add(next);
+                    visit[next] = true;
+                }
+            }
+        }
+        return cnt;
     }
 }
