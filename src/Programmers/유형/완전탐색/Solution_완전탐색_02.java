@@ -1,4 +1,4 @@
-package Programmers.완전탐색;
+package Programmers.유형.완전탐색;
 
 
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package Programmers.큐_스택;
+package Programmers.유형.큐_스택;
 
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package Programmers.정렬;
+package Programmers.유형.정렬;
 
 
 

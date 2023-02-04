@@ -1,4 +1,4 @@
-package Programmers.해시;
+package Programmers.유형.해시;
 
 
 import java.util.HashSet;
