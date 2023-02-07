@@ -37,13 +37,29 @@ package Programmers.유형.BFS_DFS;
  */
 
 class Solution_01 {
+    int answer = 0;
     public static void main(String[] args) {
         Solution_01 s = new Solution_01();
         System.out.println(s.solution(new int[]{1, 1, 1, 1, 1}, 3));
     }
 
     public int solution(int[] numbers, int target) {
-        int answer = 0;
+        // dfs 사용
+        // 마지막 노드까지 탐색했을 때 타켓 넘버와 결과 값이 같으면 count++
+        dfs(numbers, 0, target, 0);
         return answer;
+    }
+
+    private void dfs(int[] numbers, int depth, int target, int sum) {
+
+        if(depth == numbers.length){
+            if(target == sum){
+                answer++;
+            }
+        } else {
+            dfs(numbers, depth+1, target, sum + numbers[depth]);
+            dfs(numbers, depth+1, target, sum - numbers[depth]);
+        }
+
     }
 }
