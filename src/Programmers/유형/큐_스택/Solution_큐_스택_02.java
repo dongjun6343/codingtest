@@ -43,49 +43,66 @@ import java.util.Queue;
  */
 
 //5, 5, [2,2,2,2,1,1,1,1,1], 19
+
+
+
+
+/**
+ * 큐를 다리라고 생각하고 트럭을 큐에 넣고 빼면서 다리에 오르는 것을 구현.
+ * 고려조건.
+ * 다리에는 트럭이 최대 bridge_length대 올라갈 수 있으며, 다리는 weight 이하까지의 무게를 견딜 수 있다.
+ * 트럭이 다리에 올라가면 1초.
+ * 그 후 다리위에서 1칸씩 움직이면 1초 +
+ *
+ */
 class Solution_큐_스택_02 {
     public static void main(String[] args) {
         Solution_큐_스택_02 s = new Solution_큐_스택_02();
         System.out.println(s.solution(2, 10 , new int[]{7,4,5,6}));
     }
 
-    // 문제점
-    // 1. 예제로 나온 매개변수는 통과가 되는데 테스트 케이스에서 통과가 안되는 케이스 발견.
-    // 2. queue에 0을 추가해서 하는것보다 다른 방식을 생각해볼것.
-    // 3. 현재 짜놓은 소스는 예외케이스가 많아서 전체적으로 수정이 필요하다.
     public int solution(int bridge_length, int weight, int[] truck_weights) {
-        Queue<Integer> queue = new LinkedList<>();
-        int sum = 0;
-        int answer = 0;
 
-        for(int truck : truck_weights) {
-            while(true) {
-                // 큐에 아무것도 없는 경우
-                if(queue.isEmpty()) {
+        Queue<Integer> queue = new LinkedList();
+        int sum = 0;
+        int time = 0;
+
+
+        for(int truck : truck_weights){
+            // for문이 끝날때까지 계속 반복.
+            while (true) {
+                //1. 큐에 아무것도 없는경우
+                if(queue.isEmpty()){
                     queue.offer(truck);
                     sum += truck;
-                    answer++; 
-                    break;
-                } else if(queue.size() == bridge_length) { // 큐에 다리 길이만큼 트럭이 다 찬 경우
-                    sum -= queue.poll();
-                } else  {
-                    // weight 값을 넘지 않는 선에서 새로운 트럭을 다리에 올려줌
-                    if(sum + truck <= weight) {
+                    time++;
+                    break; // 다시 while문
+                } else if(queue.size() == bridge_length){
+                    //2. 큐가 가득찬 경우
+                    // 가장 앞에 넣은 트럭이 다리의 끝에 도달
+                    // poll 메서드로 꺼낸다.
+                    // 다리에서 내릴때는 시간이 들지 않는다.
+                    sum = sum - queue.poll();
+                } else {
+                    //3. 큐가 가득차지 않은경우
+                    //3-1. weight 값을 넘지 않는 선에서 새로운 트럭을 다리에 올려줌
+                    if(sum + truck <= weight){
                         queue.offer(truck);
                         sum += truck;
-                        answer++;
+                        time++;
                         break;
                     } else {
-                        // 넘는다면 0을 큐에 추가
+                        //3-2. 넘는다면 0을 넣어 이미 큐에 있는 트럭이 다리를 건너게 함
                         queue.offer(0);
-                        answer++;
+                        time++;
                     }
+
                 }
-                System.out.println(queue);
             }
         }
-        System.out.println(answer);
-        // 마지막 트럭에서 반복문이 끝남 ->  다리 길이 더해주기.
-        return answer + bridge_length;
+
+        // 반복문의 특성 상 트럭의 경우 마지막 다리에는 올랐지만 다 건너지 못한다.
+        // 따라서 지금까지 걸린 시간 + 마지막 트럭이 건너는데 걸리는 시간인 다리의 길이를 더한다.
+        return time + bridge_length;
     }
 }
