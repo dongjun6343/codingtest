@@ -47,64 +47,37 @@ class Solution_큐_스택_01 {
         Solution_큐_스택_01 s = new Solution_큐_스택_01();
         System.out.println(s.solution(new int[]{93, 30, 55},  new int[]{1, 30, 5}));
     }
-    // FIFO : 큐. -> LinkedList();
     public int[] solution(int[] progresses, int[] speeds) {
-        List<Integer> list = new ArrayList<>();
         Queue<Integer> queue = new LinkedList<>();
-        // 큐생성 후 값넣기
-        // 큐 맨앞에 있는 값 꺼낸 후 스피드의 값만큼 더해서 100이 넘어가는 count 세기.
-        // 그 다음 큐에서 꺼내기.
-        // 해당 카운트 만큼의 수만큼을 스피드만큼 더한 후 100 이 넘어가는지 확인
-        // 100이 넘어간다면 다음 큐 꺼내기
-        // 그 다음 큐가 100이 넘어가는지 확인.
-        // 넘어가지 않는다면 amswer에 꺼낸 큐 값들 추가
-        // 해당 카운트만큼 더한 스피드만큼에서 얼마나 더 추가해야 100까지 가는지 확인.
-        // queue에 각 기능의 남은 일수 저장
+
         for(int i = 0; i < progresses.length; i++) {
-            if((100 - progresses[i]) % speeds[i] == 0) {
-                queue.offer((100 - progresses[i]) / speeds[i]);
-            } else {
-                queue.offer((100 - progresses[i]) / speeds[i] + 1);
-            }
+            queue.add((int) (Math.ceil((100.0 - progresses[i]) / speeds[i])));
         }
-        System.out.println(queue);
-        int count = 1;
-        int temp = -1;
-        while(!queue.isEmpty()){
-            if(temp < 0) {
-                temp = queue.poll();
-            }
 
-            if(temp >= queue.peek()) {
-                count++;
+        List<Integer> answer= new ArrayList<>();
+        while(!queue.isEmpty()) {
+            int day = queue.poll(); //제거 후 삽입.
+            int cnt = 1;
+
+            while(!queue.isEmpty() && day >= queue.peek()) {
+                cnt++;
                 queue.poll();
-                if(queue.isEmpty()) {
-                    list.add(count);
-                    break;
-                }
-            } else {
-                list.add(count);
-                count = 1;
-                temp = queue.poll();
-                if(queue.isEmpty()) {
-                    list.add(count);
-                    break;
-                }
             }
+
+            answer.add(cnt);
+
         }
-
-        // 반환값은 int[] 배열로 반환해야 하지만,
-        // 길이를 특정할 수 없으므로, List로  add해주면서 동적으로 추가
-        // 마지막에 List객체를 반환 하고자하는 Array 객체로 변환시켜주는 작업필요.
-        int[] answer = new int[list.size()];
-
-        // 결과 반환할 자료형으로 변환 (list -> array)
-        for(int i = 0; i < list.size(); i++) {
-            answer[i] = list.get(i);
-            System.out.println(answer[i]);
-        }
-
-
-        return answer;
+        return answer.stream().mapToInt(Integer::intValue).toArray();
     }
+
+//        // 반환값은 int[] 배열로 반환해야 하지만,
+//        // 길이를 특정할 수 없으므로, List로  add해주면서 동적으로 추가
+//        // 마지막에 List객체를 반환 하고자하는 Array 객체로 변환시켜주는 작업필요.
+//        int[] answer = new int[list.size()];
+//
+//        // 결과 반환할 자료형으로 변환 (list -> array)
+//        for(int i = 0; i < list.size(); i++) {
+//            answer[i] = list.get(i);
+//            System.out.println(answer[i]);
+//        }
 }
