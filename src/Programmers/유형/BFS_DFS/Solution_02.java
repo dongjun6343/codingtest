@@ -1,6 +1,8 @@
 package Programmers.유형.BFS_DFS;
 
 
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * [게임 맵 최단거리]
@@ -55,13 +57,65 @@ package Programmers.유형.BFS_DFS;
  */
 
 class Solution_02 {
+
+    int[] dx = {0,0,1,-1};
+    int[] dy = {-1,1,0,0};
     public static void main(String[] args) {
         Solution_02 s = new Solution_02();
         System.out.println(s.solution(new int[][]{{1,0,1,1,1},{1,0,1,0,1},{1,0,1,1,1},{1,1,1,0,1},{0,0,0,0,1}}));
     }
 
+    // 사방팔방 돌아다니면서 최단거리를 찾는다 - BFS(큐)
+    // 방문했는지 안했는지 체크
     public int solution(int[][] maps) {
+
         int answer = 0;
+        // 방문 체크를 위한 배열 생성
+        int[][] visited = new int[maps.length][maps[0].length];
+
+        visited[0][0] = 1; //시작위치 방문체크
+
+        bfs(maps, visited);
+
+        // 도착지 설정
+        answer = visited[maps.length - 1][maps[0].length -1];
+
+        if(answer == 0) {
+            answer = -1;
+        }
+
         return answer;
     }
+
+    private void bfs(int[][] maps, int[][] visited) {
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] {0,0});
+
+        while(!q.isEmpty()) {
+            int[] now = q.poll();
+            int x = now[0];
+            int y = now[1];
+
+            // 4방 탐색을 위한 배열 생성
+            for(int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+
+
+                // 범위를 벗어났는지
+                // 방문을 했는지
+                // 갈 수 있는지
+                if(nx >= 0 && nx < maps.length && ny >= 0 &&
+                        ny < maps[0].length && visited[nx][ny] == 0 && maps[nx][ny] == 1) {
+
+                    // 방문 체크
+                    visited[nx][ny] = visited[x][y] + 1;
+
+                    q.offer(new int[] {nx, ny});
+                }
+            }
+        }
+    }
 }
+
+// 다시 한번 풀어보자!
