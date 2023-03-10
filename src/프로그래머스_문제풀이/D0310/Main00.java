@@ -1,9 +1,6 @@
 package 프로그래머스_문제풀이.D0310;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 //[1차] 뉴스 클러스터링
@@ -75,7 +72,6 @@ public class Main00 {
     // 합집합은 {FR, RA, AN, NC, CE, RE, EN, CH}가 되므로,
     // 두 문자열 사이의 자카드 유사도 J("FRANCE", "FRENCH") = 2/8 = 0.25가 된다.
     public int solution(String str1, String str2) {
-        float chk = 0;
         int answer = 0;
         // 글자를 각각 2글자씩 끊어서 배열에 저장한다.
 
@@ -98,52 +94,69 @@ public class Main00 {
         // aa1+aa2	  AAAA12 일 경우엔 원하는 값이 안나옴.
         // 중복에 대해서 처리를 안하고 있었다.
         // [해결]
-        // 아직 진행중....
+        // 중복된 값에 대해서 처리하자.
+        // 중복된 값이 있으면
+        // Math.min , Math.max로 교집합,합집합 count++
+        // 중복된 값이 없으면
+        // 합집합에 count++
 
 
         String strUpper1 =  str1.toUpperCase();
         String strUpper2 =  str2.toUpperCase();
-        String key = "";
         //Pattern p = Pattern.compile("^[a-zA-Z]*$");
         String pattern = "^[A-Z]*$";
-        HashMap<String, Integer> hm = new HashMap<>();
+
+        HashMap<String, Integer> hm1 = new HashMap<>();
+        HashMap<String, Integer> hm2 = new HashMap<>();
+
         // hello 1,3 el
+        // {AA=2}
+        // {SH=1, ND=1, HA=2, AK=1, KE=1, AN=1, DS=1}
+        // {CE=1, NC=1, FR=1, AN=1, RA=1}
         for(int i = 0; i < strUpper1.length()-1; i++) {
-            key = strUpper1.substring(i,i+2);
+            String key = strUpper1.substring(i,i+2);
             if(Pattern.matches(pattern, key)) {
-                hm.put(key, hm.getOrDefault(key, 0)+1);
+                hm1.put(key, hm1.getOrDefault(key, 0)+1);
             }
         }
 
+        // {AA=3}
+        // {SH=1, ND=1, HA=2, AK=1, KE=1, AN=1, DS=1}
+        // {RE=1, NC=1, CH=1, EN=1, FR=1}
         for(int i = 0; i < strUpper2.length()-1; i++) {
-
-            key = strUpper2.substring(i,i+2);
+            String  key = strUpper2.substring(i,i+2);
             if(Pattern.matches(pattern, key)) {
-                hm.put(key, hm.getOrDefault(key, 0)+1);
-            }
-            // getOrDefault : 키가 존재하면 해당 키의 값을 , 그렇지 않으면 디폴트값을 준다.
-
-        }
-        float chk1 = hm.size();
-        float chk2 = 0;
-        Iterator it  = hm.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry entry = (Entry) it.next();
-            int value = (int) entry.getValue();
-            if (value >= 2){
-                chk2++;
+                hm2.put(key, hm2.getOrDefault(key, 0)+1);
             }
         }
+        double intersection  = 0;
+        double union = 0;
 
-        chk = chk2 / chk1;
-        chk = chk * 65536;
+        // count
+        for(String key : hm1.keySet()){
+            // 중복된 값 유무 체크
+            if(hm2.containsKey(key)){
+                // 교집합
+                intersection += Math.min(hm1.get(key), hm2.get(key)); //2.0
 
-        answer = (int) chk;
+                // 합집합
+                union += Math.max(hm1.get(key),hm2.get(key)); //3.0
 
-        if(answer == 0) {
+                hm2.remove(key); // 중복된 키가 있으면 최대/최소로 값을 분리한뒤 hm2에서 제거한다.
+            }else{
+                union += hm1.get(key);
+            }
+        }
+
+        for(String key : hm2.keySet()){ // 중복된 값이 아닐 경우 합집합에 추가한다.
+            union += hm2.get(key);
+        }
+
+        if(intersection == 0.0 && union == 0.0){  // 둘 다 0이면
             answer = 65536;
+        }else{
+            answer = (int)((intersection/union) * 65536);
         }
-
         return answer;
     }
 }
