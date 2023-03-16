@@ -56,15 +56,15 @@ public class Main02 {
 
     // 1. 보조 컨테이너 = 스택 생성.
     // 2. 컨테이너 벨드 = 큐 생성.
-    // 3. 큐와 스택의 peek 한 값이 배열의 값에 없으면 리턴.
+    // 3. 스택 == 주문값 , 큐 == 주문값 체크
+    // 4. 나가는 조건은 스택에 주문값이 없을경우 return
     public int solution(int[] order) {
-        int answer = 1;
+        int answer = 0;
 
-        Queue<Integer> q = new LinkedList<>();
+        Queue<Integer> q = new LinkedList<>(); // 5 4 3 2 -> 1 ->
         Stack<Integer> s =new Stack<>();
 
-
-        int box = 0;
+        int selectBox = 0;
 
         //큐에 값 세팅.
         for(int i = 1; i <= order.length; i++) {
@@ -72,10 +72,54 @@ public class Main02 {
         }
 
         for(int i = 0 ; i < order.length; i++) {
+            while(true) {
+                // 0 : 5
+                if(selectBox > order[i]) {
+                    if(s.peek() == order[i]) { //스택(보조 컨테이너)과 주문값이 같으면
+                        answer++;
+                        selectBox = s.peek();
+                        s.pop();
+                        break;
+                    } else {
+                        // 스택에도 값이 없으으로 끝!
+                        return answer;
+                    }
 
+                }else if(!q.isEmpty()) {
+                    if(q.peek() == order[i]) { // 기본세팅값과 주문값이 같으면
+                        answer++;
+                        selectBox = q.peek();
+                        q.poll(); //해당 큐값 제거.
+                        break;
+                    } else {
+                        s.push(q.poll());
+                    }
+                }
+            }
         }
-
         return answer;
-
     }
 }
+
+
+// [다른사람 문제풀이]
+//        int answer = 0;
+//        int cnt = 0;
+//
+//        Stack<Integer> 보조 = new Stack<>();
+//        Queue<Integer> 기존 = new LinkedList<>();
+//
+//        for(int i=0; i<order.length; i++){
+//            보조.add(i+1);
+//
+//            while(!보조.isEmpty()){
+//                if(보조.peek() == order[cnt]){
+//                    기존.offer(보조.pop());
+//                    cnt++;
+//                }else{
+//                  break;
+//                }
+//            }
+//        }
+//        answer = 기존.size();
+//        return answer;
