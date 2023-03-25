@@ -1,6 +1,9 @@
 package 프로그래머스_문제풀이.D0322;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 //귤 고르기
 //문제 설명
@@ -47,13 +50,25 @@ public class Main02 {
         int answer = 0;
 
         // NAME : COUNT
-        HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> hm = new HashMap<>();
 
-        for(int t : tangerine) {
-            hm.put(t, hm.getOrDefault(hm, hm.get(hm)+1));
+        for(int key : tangerine) {
+            hm.put(key, hm.getOrDefault(key, 0) + 1);
+            // {1=1, 2=2, 3=2, 4=1, 5=2}
         }
 
-
+        // 개수 기준으로 정렬. => 개수가 많은 종류부터 고르자.
+        List<Integer> keylist = new ArrayList<Integer>(hm.keySet());
+        // Value 값으로 내림차순 정렬 : 2 2 2 1 1
+        keylist.sort((o1, o2) -> hm.get(o2).compareTo(hm.get(o1)));
+        for (Integer key : keylist) {
+            if(k <= 0) {
+                break;
+            } else {
+                answer++;
+                k = k - hm.get(key);
+            }
+        }
         return answer;
     }
 }
