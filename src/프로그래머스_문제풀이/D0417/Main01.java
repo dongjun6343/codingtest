@@ -39,7 +39,7 @@ public class Main01 {
         Arrays.sort(citations);
 
         for(int i = 0; i < citations.length; i++){
-            int h = citations.length; // 논문 개수
+            int h = citations.length - i; // 논문 개수
 
             if(citations[i] >= h ){
                 // 0 -> 5
