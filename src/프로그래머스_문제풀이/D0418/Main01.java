@@ -1,5 +1,7 @@
 package 프로그래머스_문제풀이.D0418;
 
+import java.util.*;
+
 //문제 설명
 //메리는 여름을 맞아 무인도로 여행을 가기 위해 지도를 보고 있습니다.
 // 지도에는 바다와 무인도들에 대한 정보가 표시돼 있습니다.
@@ -21,15 +23,70 @@ public class Main01 {
     // 상,하,좌,우 => 사방팔방 -> bfs을 이용해서 풀어보자 - queue
     // 1. bfs를 이용해 상하좌우 인접한 땅을 찾는다.
     // 2. 무인도로 이루어진 숫자의 합을 arraylist에 추가
+//            - 'X'가 아닌 경우 bfs를 이용해서 칸에 적힌 숫자들을 더한다.
     // 3. bfs가 끝나면 arraylist를 오름차순 정렬시킨다.
     // 4. ArrayList 크기가 0이면 -1를 넣어준 후 리턴시켜준다.
+
+
+    // 상하좌우를 탐색하기 위한 변수.
+    // 이차원 배열의 index이다. (그래프의 좌표 개념이 아님!)
+    static int dx[] = {0, 0, -1, 1};
+    static int dy[] = {-1, 1, 0, 0};
+    static boolean visited[][];
+    static char[][] map;
+
     public static void main(String[] args) {
         Main01 s = new Main01();
         System.out.println(s.solution(new String[]{"X591X","X1X5X","X231X", "1XXX1"}));
     }
 
-    public int[] solution(String[] maps) {
-        int[] answer = {};
+    public static List<Integer> solution(String[] maps){
+        List<Integer> answer = new ArrayList<>();
+        map = new char[maps.length][maps[0].length()];
+        visited = new boolean[map.length][map[0].length];
+        for(int i=0;i<maps.length;i++){
+            map[i] = maps[i].toCharArray();
+        }
+
+        for(int i=0;i<map.length;i++){
+            for(int j=0;j<map[i].length;j++){
+                if(!visited[i][j] && map[i][j] != 'X'){
+                    answer.add(bfs(i, j));
+                }
+            }
+        }
+
+        if(answer.size() == 0){
+            answer.add(-1);
+        }
+        Collections.sort(answer);
         return answer;
+    }
+
+    public static int bfs(int i, int j){
+        int sum = 0;
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{i, j}); //처음 들어온 값 시작점.
+        while(!q.isEmpty()){ //큐가 빌때까지 돌린다.
+            int[] now = q.poll(); // 현재 자리 (큐에 있는 데이터를 뽑는다)
+            visited[i][j] = true; // 현재 방문했으니 true
+
+            sum += map[now[0]][now[1]]-'0';
+
+            for(int k = 0; k < 4; k++) { //상하좌우 탐색을 위한 for문.
+                int x = now[0] + dx[k]; // 상하좌우 탐색
+                int y = now[1] + dy[k]; // 상하좌우 탐색
+
+                if (x >= 0 && y >= 0 && x < map.length && y < map[0].length) { // 배열을 넘어가면 안된다.
+                    if (!visited[x][y] && map[x][y] != 'X') { // 이미 방문했던곳과 가지 못하는 곳의 조건
+
+                        // 이제 갈수 있는곳이다.
+                        visited[x][y] = true;
+                        q.offer(new int[]{x, y});
+                    }
+                }
+            }
+        }
+        return sum;
     }
 }
