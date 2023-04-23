@@ -29,24 +29,36 @@ public class Main01 {
     public static void main(String[] args) {
         Main01 s = new Main01();
         System.out.println(s.solution(80, new int[][]{{80,20},{50,40},{30,10}}));
+//        System.out.println(s.solution(80, new int[][]{{30,10},{80,20},{50,40}}));
     }
 
     // [[80,20],[50,40],[30,10]]
     // 80
     static boolean visited[];
+    static int answer = 0;
 
     public int solution(int k, int[][] dungeons) {
-        int answer = -1;
+
         visited = new boolean[dungeons.length];
         // DFS => 깊이 우선 탐색 => 재귀
-        dfs();
-
+        dfs(0, k , dungeons);
         return answer;
     }
 
-    private void dfs() {
+    private void dfs(int depth, int k, int[][] dungeons) {
+
+        // dfs를 돌때마다 최대값 계산
+        answer = Math.max(answer, depth);
+
         // 방문체크
-        // dfs 재귀
-        // 방문체크 초기화.
+        for(int i = 0; i < dungeons.length; i++){
+//            System.out.println(i);
+            if(visited[i] == false && k >= dungeons[i][0]){
+                visited[i] = true;
+                dfs(depth + 1, k - dungeons[i][1] , dungeons);
+                // 다른케이스 확인을 위한 방문처리 초기화
+                visited[i] = false;
+            }
+        }
     }
 }
