@@ -25,59 +25,33 @@ public class Main01 {
     }
     public int[] solution(int[] sequence, int k) {
         // 투포인트로 풀어보자
-        // right를 옮길때는 배열의 길이를 항상 생각하자
+        int[] answer = new int[2];
+        int sum = 0;
         int left = 0;
         int right = 0;
-        int sum = 0;
         int size = Integer.MAX_VALUE;
-        int[] answer = new int[2];
-        // 종료조건 right가 배열의 길이보다 길거나 left가 right보다 클때!
-        while(right < sequence.length && left <= right){
 
-            // 1. left == right : 첫번째 접근이거나 같을때
-            if(left == right){
-                sum = sequence[left]; // 1번째 -> sum : 1
+        while (true) {
+
+            // sum > 찾고자 하는 값 : 크므로 left값 ++ 해주고 합에서 빼기
+            if (sum >= k) {
+                sum -= sequence[left++];
             }
-            // 2. 누적합이 k랑 같을때
-            if(sum == k ){
-                // 2-1. 현재 포인터 간 길이가 이전 포인트보다 짧을때
-                if (size > right - left + 1) {
-                    size = right - left + 1;
+
+            // 탈출조건
+            else if (right >= sequence.length) break;
+
+            else if (sum < k) {
+                sum += sequence[right++];
+            }
+
+            // 값이 같을 경우
+            if (sum == k) {
+                if (right - left < size) {
                     answer[0] = left;
-                    answer[1] = right;
+                    answer[1] = right-1;
+                    size = right-left;
                 }
-                // 모든 원소는 양수이기 때문에 다음 경우의 수를 찾기 위해 lt를 증가 시킬 것이며,
-                // 누적합 계산을 위해 현재 sequence[lt] 값을 빼준다.
-                sum -= sequence[left];
-
-                // 2-2. rt도 마찬가지로 증가시킬 것이기 때문에
-                // 현재 누적합에 sequence[rt + 1]을 더해준다.
-                if (right + 1 < sequence.length) {
-                    sum += sequence[right + 1];
-                }
-                // 2-3. 두 포인터가 같은 경우 가장 짧은 길이이기 때문에 순회를 종료
-                if (left == right) {
-                    break;
-                }
-                // 각 포인터 증가
-                left++;
-                right++;
-
-                // 3. 누적합이 k보다 클때
-            } else if (sum > k) {
-                // lt를 증가해가며 k와 같은 지를 비교
-                sum -= sequence[left]; //left의 값을 누적합에서 제거한뒤 left한칸 옮김.
-                left++;
-
-                // 4. 누적합이 k보다 작을때
-            } else if (sum < k) {
-                // 누적합이 k 보다 작은 경우 rt를 증가해가며 k와 같은 지를 비교
-                if (right + 1 < sequence.length) {
-                    sum += sequence[right + 1];
-                }
-
-
-                right++;
             }
         }
         return answer;
